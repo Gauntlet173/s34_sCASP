@@ -150,10 +150,19 @@ according_to(r34_1_c,described_in_s1(X)) :- unfair(X).
 % (d)	any business which involves the sharing of the legal practitioner’s fees with, 
 % or the payment of a commission to, any unauthorised person for legal work performed 
 % by the legal practitioner;
+according_to(r34_1_d,described_in_s1(X)) :-
+    involves_sharing_fees(X,Fees,Recipient),
+    as_compensation_for(Fees,Work),
+    performed_by(Work,Lawyer),
+    legal_work(Work),
+    unauthorized(Recipient).
 
-
-according_to(r34_1_d,described_in_s1(X)) :- involves_sharing_fees(X,Fees,Recipient), as_compensation_for(Fees,Work), performed_by(Work,Lawyer), legal_work(Work), unauthorized(Recipient).
-according_to(r34_1_d,described_in_s1(X)) :- involves_paying_commission(X,Fees,Recipient), as_compensation_for(Fees,Work), performed_by(Work,Lawyer), legal_work(Work), unauthorized(Recipient).
+according_to(r34_1_d,described_in_s1(X)) :-
+    involves_paying_commission(X,Fees,Recipient),
+    as_compensation_for(Fees,Work),
+    performed_by(Work,Lawyer),
+    legal_work(Work),
+    unauthorized(Recipient).
 
 
 % (e)	any business set out in the First Schedule;
@@ -225,7 +234,8 @@ according_to(r34_2_b,may(LP,accept,EA)) :-
     law_practice_in_singapore(Other_Practice),
     Main_Practice \= Other_Practice,
     accepts_position_as_representative(LP,EA,Main_Practice),
-    not participation_prohibited(Main_Practice,Other_Practice). % this is a low-fidelity representation of the prohibition.
+    % this is a low-fidelity representation of the prohibition.
+    not participation_prohibited(Main_Practice,Other_Practice).
 
 opposes(r34_1,must_not(LP,accept,EA),r34_2_b,may(LP,accept,EA)).
 
